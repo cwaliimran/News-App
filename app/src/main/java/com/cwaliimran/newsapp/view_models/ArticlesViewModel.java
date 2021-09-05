@@ -6,14 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.cwaliimran.newsapp.models.ModelArticles;
 import com.cwaliimran.newsapp.repository.ArticleRepository;
-import com.cwaliimran.newsapp.response.ArticleResponse;
 
 public class ArticlesViewModel extends AndroidViewModel {
 
     private ArticleRepository articleRepository;
 
-    private LiveData<ArticleResponse> articleResponseLiveData;
+    private LiveData<ModelArticles> articleResponseLiveData;
 
 
     public ArticlesViewModel(@NonNull Application application) {
@@ -22,7 +22,7 @@ public class ArticlesViewModel extends AndroidViewModel {
         this.articleResponseLiveData = articleRepository.getDashboardNews();
     }
 
-    public LiveData<ArticleResponse> getBashboardNewsResponseLiveData() {
+    public LiveData<ModelArticles> getArticleResponseLiveData() {
         return articleResponseLiveData;
     }
 }

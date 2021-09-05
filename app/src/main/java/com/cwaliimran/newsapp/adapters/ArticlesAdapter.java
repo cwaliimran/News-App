@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cwaliimran.newsapp.databinding.RowNewsBinding;
-import com.cwaliimran.newsapp.models.Article;
+import com.cwaliimran.newsapp.models.ModelArticles;
 
 import java.util.ArrayList;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
     Context context;
-    ArrayList<Article> articleArrayList;
+    ArrayList<ModelArticles.Article> articleArrayList;
     LayoutInflater inflater;
 
-    public ArticlesAdapter(@NonNull Context context, ArrayList<Article> articleArrayList) {
+    public ArticlesAdapter(@NonNull Context context, ArrayList<ModelArticles.Article> articleArrayList) {
         this.context = context;
         this.articleArrayList = articleArrayList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,7 +33,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ArticlesAdapter.ViewHolder holder, int position) {
-        Article article = articleArrayList.get(position);
+        ModelArticles.Article article = articleArrayList.get(position);
         holder.binding.tvTitle.setText(article.getTitle());
         Glide.with(context).load(article.getUrlToImage()).into(holder.binding.ivNews);
     }

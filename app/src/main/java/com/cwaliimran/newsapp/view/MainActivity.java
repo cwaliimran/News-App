@@ -5,15 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.cwaliimran.newsapp.adapters.ArticlesAdapter;
 import com.cwaliimran.newsapp.databinding.ActivityMainBinding;
-import com.cwaliimran.newsapp.models.Article;
+import com.cwaliimran.newsapp.models.ModelArticles;
 import com.cwaliimran.newsapp.view_models.ArticlesViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -21,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     ArticlesViewModel articlesViewModel;
     ArticlesAdapter adapter;
     LayoutInflater inflater;
-    private ArrayList<Article> articleArrayList = new ArrayList<>();
+    private ArrayList<ModelArticles.Article> articleArrayList = new ArrayList<>();
 
+    //    ModelArticles modelArticles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,20 +34,19 @@ public class MainActivity extends AppCompatActivity {
         getArticles();
     }
 
-    private void initViews() {
-        adapter = new ArticlesAdapter(this, articleArrayList);
-        binding.recyclerView.setAdapter(adapter);
-        articlesViewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
-    }
-
     private void getArticles() {
-        articlesViewModel.getBashboardNewsResponseLiveData().observe(this, articleResponse -> {
-            if (articleResponse != null && articleResponse.getArticles() != null && !articleResponse.getArticles().isEmpty()) {
+        articlesViewModel.getArticleResponseLiveData().observe(this, modelArticles -> {
+            if (modelArticles != null && modelArticles.getArticles() != null & !modelArticles.getArticles().isEmpty()) {
                 binding.progressBar.setVisibility(View.GONE);
-                List<Article> articleList = articleResponse.getArticles();
-                articleArrayList.addAll(articleList);
+                articleArrayList.addAll(modelArticles.getArticles());
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void initViews() {
+        adapter = new ArticlesAdapter(this, articleArrayList);
+        binding.recyclerView.setAdapter(adapter);
+        articlesViewModel = new ViewModelProvider(this).get(ArticlesViewModel.class);
     }
 }
